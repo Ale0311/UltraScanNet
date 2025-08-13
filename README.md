@@ -1,52 +1,78 @@
 # UltraScanNet: A Mamba-Inspired Hybrid Backbone for Breast Ultrasound Classification
 
-> This repository accompanies the scientific article:  
-> **UltraScanNet: A Mamba-Inspired Hybrid Backbone for Breast Ultrasound Classification**  
-> 🖊 Alexandra-Gabriela Laicu-Hausberger, Călin-Adrian Popa  
-> 📍 Politehnica University of Timișoara, Romania  
----
+Breast ultrasound imaging is a vital, radiation-free detection tool for breast cancer. However, its **low contrast**, **speckle noise**, and **inter-class variability** make automated interpretation challenging.  
+UltraScanNet is a **deep learning backbone** specifically designed for **breast ultrasound classification**, evaluated on the **BUSI dataset**.
 
-## 🧠 About the Paper
+## 📜 Abstract
+UltraScanNet combines:
+- **Convolutional Stem** with learnable 2D positional embeddings  
+- **Hybrid Stage** with MobileViT blocks, spatial gating, and convolutional residuals  
+- **Progressively Global Stages** using a depth-aware mix of:
+  1. **UltraScanUnit** — a state-space module with selective scan, gated convolutional residuals, and low-rank projections  
+  2. **ConvAttnMixers** — spatial-channel mixing modules  
+  3. **Multi-Head Self-Attention Blocks** — for global reasoning  
 
-Breast ultrasound imaging offers a safe, accessible, and non-invasive alternative for early breast cancer detection. However, its interpretation is hindered by low contrast, speckle noise, and inter-class variability.
+A detailed ablation study evaluates the individual and combined contributions of each component.
 
-**UltraScanNet** is a novel deep learning architecture specifically designed to address these challenges. Inspired by Mamba-style state-space modeling, the network blends:
+## 📊 Performance on BUSI Dataset
+UltraScanNet achieves:
+- **Top-1 Accuracy:** **91.67%**
+- **Precision:** **0.9072**
+- **Recall:** **0.9174**
+- **F1-Score:** **0.9096**
 
-- A **convolutional stem** with learnable 2D positional embeddings,
-- A **hybrid Stage 1**, combining convolutional and MobileViT-style blocks with spatial gating,
-- **Depth-adaptive Stage 2 and 3**, leveraging a mixture of:
-  - 🌀 `UltraScanUnit` — a custom selective-scan SSM module with gated convolutions and low-rank residuals,
-  - 🔄 `ConvAttnMixers` — lightweight convolutional attention blocks,
-  - 🧠 `Multi-head self-attention` — for global context modeling.
+### 📈 Comparison with SOTA Models
+| Model              | Top-1 Accuracy (%) |
+|--------------------|--------------------|
+| **UltraScanNet**   | **91.67**          |
+| ViT-Small          | 91.67              |
+| MaxViT-Tiny        | 91.67              |
+| MambaVision        | 91.02              |
+| Swin-Tiny          | 90.38              |
+| ConvNeXt-Tiny      | 89.74              |
+| ResNet-50          | 85.90              |
 
-The model achieves state-of-the-art performance on the BUSI dataset with **91.67% top-1 accuracy**, **0.9096 F1-score**, and competitive precision/recall, outperforming or matching models such as ViT-Small, MaxViT-Tiny, and ConvNeXt-Tiny.
+UltraScanNet ranks among the **top-performing models**, providing competitive accuracy with fewer parameters compared to several transformer-based backbones.
 
----
-
-## 📈 Key Results
-
-| Model              | Top-1 Acc | Precision | Recall | F1-Score |
-|-------------------|-----------|-----------|--------|----------|
-| **UltraScanNet**   | **91.67%** | **0.9072** | **0.9174** | **0.9096** |
-| ViT-Small          | 91.67%    | —         | —      | —        |
-| MaxViT-Tiny        | 91.67%    | —         | —      | —        |
-| Swin-Tiny          | 90.38%    | —         | —      | —        |
-| ConvNeXt-Tiny      | 89.74%    | —         | —      | —        |
-| ResNet-50          | 85.90%    | —         | —      | —        |
-
----
-
-## 🚧 Repository Status
-
-📢 **Code release coming soon**  
-This repository is currently under active development. The code, dataset preprocessing scripts, and trained model weights will be made publicly available after the paper's peer review process.
-
-Stay tuned for:
-- ✅ PyTorch implementation of UltraScanNet  
-- ✅ Dataset preparation instructions for BUSI and BUSBRA  
-- ✅ Training & evaluation scripts  
-- ✅ Inference demo 
+## 🧪 Key Features
+- **Learnable 2D Positional Embeddings** in the early convolutional stem  
+- **Hybrid Local-Global Encoding** for efficient feature extraction  
+- **Depth-Aware Operation Scheduling** (UltraScanUnit → ConvAttnMixer → MHSA)  
+- **Extensive Benchmarking** against CNN, Transformer, and Mamba-based architectures  
+- **Per-Class & Global Performance Analysis**
 
 
+## 📊 Confusion Matrices
+
+Below are the confusion matrices for all evaluated models on the BUSI dataset:
+
+| UltraScanNet | MambaVision Baseline | 
+|--------------|----------------------|
+| ![UltraScanNet CM](cm/ultrascannet.png) | ![MambaVision CM](cm/mambavision.png) | 
+
+| MaxViT-Tiny | DenseNet-121 | ViT-Small |
+|-------------|--------------| -----------|
+| ![MaxViT CM](cm/maxvit.png) | ![DenseNet CM](cm/densenet.png) | ![ViT-Small CM](cm/vit_small.png) |
 
 
+## 🔍 Grad-CAM Visualizations
+
+Grad-CAM helps visualize which regions of the breast ultrasound images contributed most to the model’s decision.  
+Below are examples from **UltraScanNet** for each class:
+
+| Benign | Malignant | Normal |
+|--------|-----------|--------|
+| ![Benign CAM](grad-cam/benign_class0_cam.png) | ![Malignant CAM](grad-cam/malignant_class1_cam.png) | ![Normal CAM](grad-cam/normal_class2_cam.png) |
+
+
+### 📜 Reproducing Paper Results
+To reproduce **all the reported values in the paper** (accuracy, precision, recall, F1-score, per-class metrics, curves and confusion matrices), run:
+
+```bash
+python ultrascannet/launch_validation.py
+
+### 📥 Pretrained Weights & Configurations
+
+We provide **pretrained weights** and the **configuration files** so that you can reproduce our results.
+
+- **OneDrive Link:** [Download Here](https://uptro29158-my.sharepoint.com/:f:/g/personal/alexandra_laicu-hausberger_student_upt_ro/Em88eUDjtxBKmFMdmV75XBYB-AmQabzwnSjD-IzuwCstqA?e=5JkkdL)
