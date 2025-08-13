@@ -1,8 +1,5 @@
 # UltraScanNet: A Mamba-Inspired Hybrid Backbone for Breast Ultrasound Classification
 
-Breast ultrasound imaging is a vital, radiation-free detection tool for breast cancer. However, its **low contrast**, **speckle noise**, and **inter-class variability** make automated interpretation challenging.  
-UltraScanNet is a **deep learning backbone** specifically designed for **breast ultrasound classification**, evaluated on the **BUSI dataset**.
-
 ## 📜 Abstract
 UltraScanNet combines:
 - **Convolutional Stem** with learnable 2D positional embeddings  
@@ -44,7 +41,7 @@ UltraScanNet ranks among the **top-performing models**, providing competitive ac
 
 ## 📊 Confusion Matrices
 
-Below are the confusion matrices for all evaluated models on the BUSI dataset:
+Below are the confusion matrices for 5 evaluated models on the BUSI dataset:
 
 | UltraScanNet | MambaVision Baseline | 
 |--------------|----------------------|
@@ -58,7 +55,7 @@ Below are the confusion matrices for all evaluated models on the BUSI dataset:
 ## 🔍 Grad-CAM Visualizations
 
 Grad-CAM helps visualize which regions of the breast ultrasound images contributed most to the model’s decision.  
-Below are examples from **UltraScanNet** for each class:
+Below are some examples from **UltraScanNet** for each class:
 
 | Benign | Malignant | Normal |
 |--------|-----------|--------|
@@ -69,7 +66,8 @@ Below are examples from **UltraScanNet** for each class:
 To reproduce **all the reported values in the paper** (accuracy, precision, recall, F1-score, per-class metrics, curves and confusion matrices), run:
 
 ```bash
-python ultrascannet/launch_validation.py
+python3 ultrascannet/launch_validation.py
+```
 
 ### 📥 Pretrained Weights & Configurations
 
