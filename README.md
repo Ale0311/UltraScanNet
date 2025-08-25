@@ -69,6 +69,14 @@ To reproduce **all the reported values in the paper** (accuracy, precision, reca
 python3 ultrascannet/launch_validation.py
 ```
 
+### ⚙️ Training
+To train the model, run:
+
+```bash
+python3 ultrascannet/launch_experiments.py
+```
+
+
 ### 📥 Pretrained Weights & Configurations
 
 We provide **pretrained weights** and the **configuration files** so that you can reproduce our results.
