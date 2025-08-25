@@ -3,10 +3,6 @@ import subprocess
 model_list = [
     "ultra_scan_net"
     # "mamba_vision_T2_baseline",
-    # "mamba_vision_T3_pyramid_fusion",
-    # "mamba_vision_T4_pyramid_fusion_refinement"
-    # 'mamba_vision_T6_refinement_attn',
-    # "mamba_vision_T5_refinement"
     # "resnet50",
     # "mobilenetv2_100",
     # "densenet121",
@@ -37,21 +33,19 @@ data_len = [
 ]
 
 # ✅ Launch experiments
-for mixer in [5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 ]:
-    for model in model_list:
-        for i, dataset_path in enumerate(dataset_list):
-            experiment_name = f"{model}_{dataset_names[i]}_mixer_{mixer}"
+for model in model_list:
+    for i, dataset_path in enumerate(dataset_list):
+        experiment_name = f"{model}_{dataset_names[i]}"
 
-            cmd = ["python3", "train.py",
-                "-c", "./configs/experiments/mambavision_tiny2_1k_run_exp.yaml",
-                f"--group=jitter_experiments_{model}",
-                f"--model={model}",
-                f"--experiment={experiment_name}",
-                f"--data_dir={dataset_path}",
-                f"--data_len={data_len[i]}",
-                f"--mixer={mixer}",
-                f"--log-wandb"
-            ]
+        cmd = ["python3", "train.py",
+            "-c", "./configs/experiments/mambavision_tiny2_1k_run_exp.yaml",
+            f"--group=jitter_experiments_{model}",
+            f"--model={model}",
+            f"--experiment={experiment_name}",
+            f"--data_dir={dataset_path}",
+            f"--data_len={data_len[i]}",
+            f"--log-wandb"
+        ]
 
-            print(f"\n🚀 Running: {experiment_name}\n")
-            subprocess.run(cmd)
+        print(f"\n🚀 Running: {experiment_name}\n")
+        subprocess.run(cmd)
